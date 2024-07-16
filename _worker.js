@@ -105,9 +105,9 @@ export default {
 			if (url.searchParams.has('sub') && url.searchParams.get('sub') !== '') sub = url.searchParams.get('sub');
 			if (url.searchParams.has('notls')) noTLS = 'true';
 			// 检查 URL 是否包含参数 'wdnmd'
-		    	if (!url.searchParams.has('wdnmd')) {
-				return new Response('Missing required parameter: wdnmd', { status: 400 })
-		    	}
+		    	//if (!url.searchParams.has('wdnmd')) {
+				//return new Response('Missing required parameter: wdnmd', { status: 400 })
+		    	//}
 			if (!upgradeHeader || upgradeHeader !== 'websocket') {
 				// const url = new URL(request.url);
 				switch (url.pathname.toLowerCase()) {

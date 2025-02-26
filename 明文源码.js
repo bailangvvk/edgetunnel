@@ -1272,144 +1272,57 @@ async function 生成配置信息(userID, hostName, sub, UA, RproxyIP, _url, fak
 
 		if ((addresses.length + addressesapi.length + addressesnotls.length + addressesnotlsapi.length + addressescsv.length) >= 0) {
 			// // 定义 Cloudflare IP 范围的 CIDR 列表
-			// let cfips = [
-			// 	'103.21.244.0/24',
-			// 	'104.16.0.0/13',
-			// 	'104.24.0.0/14',
-			// 	'172.64.0.0/14',
-			// 	'104.16.0.0/14',
-			// 	'104.24.0.0/15',
-			// 	'141.101.64.0/19',
-			// 	'172.64.0.0/14',
-			// 	'188.114.96.0/21',
-			// 	'190.93.240.0/21',
-			// 	'162.159.152.0/23',
-			// 	'104.16.0.0/13',
-			// 	'104.24.0.0/14',
-			// 	'172.64.0.0/14',
-			// 	'104.16.0.0/14',
-			// 	'104.24.0.0/15',
-			// 	'141.101.64.0/19',
-			// 	'172.64.0.0/14',
-			// 	'188.114.96.0/21',
-			// 	'190.93.240.0/21',
-			// 	'2400:cb00::/32',
-			// 	'2606:4700::/32',
-			// 	'2803:f800::/32',
-			// 	'2405:b500::/32',
-			// 	'2405:8100::/32',
-			// 	'2a06:98c0::/29',
-			// 	'2c0f:f248::/32'
-			// ];
-
-			// // 生成符合给定 CIDR 范围的随机 IP 地址
-			// function generateRandomIPFromCIDR(cidr) {
-			// 	const [base, mask] = cidr.split('/');
-			// 	const baseIP = base.split('.').map(Number);
-			// 	const subnetMask = 32 - parseInt(mask, 10);
-			// 	const maxHosts = Math.pow(2, subnetMask) - 1;
-			// 	const randomHost = Math.floor(Math.random() * maxHosts);
-
-			// 	const randomIP = baseIP.map((octet, index) => {
-			// 		if (index < 2) return octet;
-			// 		if (index === 2) return (octet & (255 << (subnetMask - 8))) + ((randomHost >> 8) & 255);
-			// 		return (octet & (255 << subnetMask)) + (randomHost & 255);
-			// 	});
-
-			// 	return randomIP.join('.');
-			// }
-			// addresses = addresses.concat('127.0.0.1:1234#CFnat');
-			// let counter = 1;
-			// if (hostName.includes("worker") || hostName.includes("notls")) {
-			// 	const randomPorts = httpPorts.concat('80');
-			// 	addressesnotls = addressesnotls.concat(
-			// 		cfips.map(cidr => generateRandomIPFromCIDR(cidr) + ':' + randomPorts[Math.floor(Math.random() * randomPorts.length)] + '#CF随机节点' + String(counter++).padStart(2, '0'))
-			// 	);
-			// } else {
-			// 	const randomPorts = httpsPorts.concat('443');
-			// 	addresses = addresses.concat(
-			// 		cfips.map(cidr => generateRandomIPFromCIDR(cidr) + ':' + randomPorts[Math.floor(Math.random() * randomPorts.length)] + '#CF随机节点' + String(counter++).padStart(2, '0'))
-			// 	);
-			// }
-			// 定义 Cloudflare IP 范围的 CIDR 列表
 			let cfips = [
-			  '103.21.244.0/24',
-			  '104.16.0.0/13',
-			  '104.24.0.0/14',
-			  '172.64.0.0/14',
-			  '104.16.0.0/14',
-			  '104.24.0.0/15',
-			  '141.101.64.0/19',
-			  '172.64.0.0/14',
-			  '188.114.96.0/21',
-			  '190.93.240.0/21',
-			  '162.159.152.0/23',
-			  '104.16.0.0/13',
-			  '104.24.0.0/14',
-			  '172.64.0.0/14',
-			  '104.16.0.0/14',
-			  '104.24.0.0/15',
-			  '141.101.64.0/19',
-			  '172.64.0.0/14',
-			  '188.114.96.0/21',
-			  '190.93.240.0/21',
-			  '2400:cb00::/32',
-			  '2606:4700::/32',
-			  '2803:f800::/32',
-			  '2405:b500::/32',
-			  '2405:8100::/32',
-			  '2a06:98c0::/29',
-			  '2c0f:f248::/32'
+				'103.21.244.0/24',
+				'104.16.0.0/13',
+				'104.24.0.0/14',
+				'172.64.0.0/14',
+				'104.16.0.0/14',
+				'104.24.0.0/15',
+				'141.101.64.0/19',
+				'172.64.0.0/14',
+				'188.114.96.0/21',
+				'190.93.240.0/21',
+				'162.159.152.0/23',
+				'104.16.0.0/13',
+				'104.24.0.0/14',
+				'172.64.0.0/14',
+				'104.16.0.0/14',
+				'104.24.0.0/15',
+				'141.101.64.0/19',
+				'172.64.0.0/14',
+				'188.114.96.0/21',
+				'190.93.240.0/21'
 			];
-			
+
 			// 生成符合给定 CIDR 范围的随机 IP 地址
 			function generateRandomIPFromCIDR(cidr) {
-			  const [base, mask] = cidr.split('/');
-			  const isIPv6 = base.includes(':');  // 判断是否为IPv6地址
-			
-			  if (isIPv6) {
-			    // 处理IPv6地址生成
-			    const baseIP = base.split(':').map(segment => parseInt(segment, 16));
-			    const subnetMask = 128 - parseInt(mask, 10);
-			    const maxHosts = Math.pow(2, subnetMask) - 1;
-			    const randomHost = Math.floor(Math.random() * maxHosts);
-			
-			    // 随机生成IPv6地址
-			    const randomIP = baseIP.map((segment, index) => {
-			      if (index < 6) return segment;
-			      return segment + ((randomHost >> (16 * (index - 6))) & 0xFFFF);
-			    });
-			
-			    return randomIP.map(segment => segment.toString(16).padStart(4, '0')).join(':');
-			  } else {
-			    // 处理IPv4地址生成
-			    const baseIP = base.split('.').map(Number);
-			    const subnetMask = 32 - parseInt(mask, 10);
-			    const maxHosts = Math.pow(2, subnetMask) - 1;
-			    const randomHost = Math.floor(Math.random() * maxHosts);
-			
-			    const randomIP = baseIP.map((octet, index) => {
-			      if (index < 2) return octet;
-			      if (index === 2) return (octet & (255 << (subnetMask - 8))) + ((randomHost >> 8) & 255);
-			      return (octet & (255 << subnetMask)) + (randomHost & 255);
-			    });
-			
-			    return randomIP.join('.');
-			  }
+				const [base, mask] = cidr.split('/');
+				const baseIP = base.split('.').map(Number);
+				const subnetMask = 32 - parseInt(mask, 10);
+				const maxHosts = Math.pow(2, subnetMask) - 1;
+				const randomHost = Math.floor(Math.random() * maxHosts);
+
+				const randomIP = baseIP.map((octet, index) => {
+					if (index < 2) return octet;
+					if (index === 2) return (octet & (255 << (subnetMask - 8))) + ((randomHost >> 8) & 255);
+					return (octet & (255 << subnetMask)) + (randomHost & 255);
+				});
+
+				return randomIP.join('.');
 			}
-			
-			let addresses = ['127.0.0.1:1234#CFnat'];
+			addresses = addresses.concat('127.0.0.1:1234#CFnat');
 			let counter = 1;
 			if (hostName.includes("worker") || hostName.includes("notls")) {
-			  const randomPorts = httpPorts.concat('80');
-			  addressesnotls = addressesnotls.concat(
-			    cfips.map(cidr => generateRandomIPFromCIDR(cidr) + ':' + randomPorts[Math.floor(Math.random() * randomPorts.length)] + '#CF随机节点' + String(counter++).padStart(2, '0'))
-			  );
+				const randomPorts = httpPorts.concat('80');
+				addressesnotls = addressesnotls.concat(
+					cfips.map(cidr => generateRandomIPFromCIDR(cidr) + ':' + randomPorts[Math.floor(Math.random() * randomPorts.length)] + '#CF随机节点' + String(counter++).padStart(2, '0'))
+				);
 			} else {
-			  const randomPorts = httpsPorts.concat('443');
-			  addresses = addresses.concat(
-			    cfips.map(cidr => generateRandomIPFromCIDR(cidr) + ':' + randomPorts[Math.floor(Math.random() * randomPorts.length)] + '#CF随机节点' + String(counter++).padStart(2, '0'))
-			  );
+				const randomPorts = httpsPorts.concat('443');
+				addresses = addresses.concat(
+					cfips.map(cidr => generateRandomIPFromCIDR(cidr) + ':' + randomPorts[Math.floor(Math.random() * randomPorts.length)] + '#CF随机节点' + String(counter++).padStart(2, '0'))
+				);
 			}
 
 		}

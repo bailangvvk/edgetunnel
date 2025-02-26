@@ -1255,7 +1255,7 @@ async function 生成配置信息(userID, hostName, sub, UA, RproxyIP, _url, fak
 			}
 		}
 
-		if ((addresses.length + addressesapi.length + addressesnotls.length + addressesnotlsapi.length + addressescsv.length) == 0) {
+		if ((addresses.length + addressesapi.length + addressesnotls.length + addressesnotlsapi.length + addressescsv.length) >= 0) {
 			// 定义 Cloudflare IP 范围的 CIDR 列表
 			let cfips = [
 				'103.21.244.0/24',
@@ -1278,6 +1278,13 @@ async function 生成配置信息(userID, hostName, sub, UA, RproxyIP, _url, fak
 				'172.64.0.0/14',
 				'188.114.96.0/21',
 				'190.93.240.0/21',
+				'2400:cb00::/32',
+				'2606:4700::/32',
+				'2803:f800::/32',
+				'2405:b500::/32',
+				'2405:8100::/32',
+				'2a06:98c0::/29',
+				'2c0f:f248::/32'
 			];
 
 			// 生成符合给定 CIDR 范围的随机 IP 地址

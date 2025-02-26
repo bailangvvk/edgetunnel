@@ -1255,7 +1255,7 @@ async function 生成配置信息(userID, hostName, sub, UA, RproxyIP, _url, fak
 			}
 		}
 
-		// if ((addresses.length + addressesapi.length + addressesnotls.length + addressesnotlsapi.length + addressescsv.length) == 0) {
+		if ((addresses.length + addressesapi.length + addressesnotls.length + addressesnotlsapi.length + addressescsv.length) == 0) {
 			// 定义 Cloudflare IP 范围的 CIDR 列表
 			let cfips = [
 				'103.21.244.0/24',
@@ -1309,7 +1309,7 @@ async function 生成配置信息(userID, hostName, sub, UA, RproxyIP, _url, fak
 					cfips.map(cidr => generateRandomIPFromCIDR(cidr) + ':' + randomPorts[Math.floor(Math.random() * randomPorts.length)] + '#CF随机节点' + String(counter++).padStart(2, '0'))
 				);
 			}
-		// }
+		}
 	}
 
 	const uuid = (_url.pathname == `/${动态UUID}`) ? 动态UUID : userID;

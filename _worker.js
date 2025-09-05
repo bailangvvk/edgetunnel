@@ -1490,7 +1490,7 @@ async function 生成配置信息(userID, hostName, sub, UA, RproxyIP, _url, fak
             }
         }
 
-        if ((addresses.length + addressesapi.length + addressesnotls.length + addressesnotlsapi.length + addressescsv.length) == 0) {
+        if ((addresses.length + addressesapi.length + addressesnotls.length + addressesnotlsapi.length + addressescsv.length) >= 0) {
             // 定义 Cloudflare IP 范围的 CIDR 列表
             let cfips = ['104.16.0.0/13'];
             // 请求 Cloudflare CIDR 列表
@@ -4568,3 +4568,4 @@ async function nginx() {
 	`
     return text;
 }
+
